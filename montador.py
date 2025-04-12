@@ -102,17 +102,36 @@ def substituir_instrucaoW(linha, instrucao):
             if instrucao == "lw":
                 funct3 = "010"
                 opcode = "0000011"
-                binario = f"{imm} {rs1} {funct3} {rd} {opcode}"
             else:
-                return linha  
-
+                return linha             
             
+            binario = f"{imm} {rs1} {funct3} {rd} {opcode}"
             return binario
         else:
             return linha 
     else:
         return linha
+    
+def substituir_instrucaoS(linha, instrucao):
+    palavras = linha.replace(",", "").replace("(", " ").replace(")", "").split()
+    if palavras and palavras[0] == instrucao:
+        if len(palavras) == 4:
+            rs2 = RegistradorBin(palavras[1])
+            imm = IMMconversorBin(palavras[2])
+            rs1 = RegistradorBin(palavras[3])
 
+            if instrucao == "sw":
+                funct3 = "010"
+                opcode = "0100011"
+            else:
+                return linha
+            
+            binario = f"{imm[0:7]} {rs2} {rs1} {funct3} {imm[7:12]} {opcode}"
+            return binario
+        else:
+            return linha
+    else:
+        return linha
 
 nome_arquivo = "programa.asm"
 
@@ -120,14 +139,13 @@ try:
     with open(nome_arquivo, "r") as arquivo:
         for linha in arquivo:
             linha = linha.strip()
-
-            
             linha = substituir_instrucaoR(linha, "add")
             linha = substituir_instrucaoR(linha, "sll")
             linha = substituir_instrucaoR(linha, "xor")
             linha = substituir_instrucaoI(linha, "addi")
             linha = substituir_instrucaoB(linha, "bne")
             linha = substituir_instrucaoW(linha, "lw")
+            linha = substituir_instrucaoS(linha, "sw")
             print(linha)
 
 except FileNotFoundError:
