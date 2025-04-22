@@ -32,6 +32,8 @@ def substituir_instrucaoR(linha, instrucao):
                 funct7 = "0000000"; funct3 = "111"; opcode = "0110011"
             elif instrucao == "or":
                 funct7 = "0000000"; funct3 = "110"; opcode = "0110011"
+            elif instrucao == "srl":
+                funct7 = "0000000"; funct3 = "101"; opcode = "0110011"
             else:
                 return linha
             return f"{funct7} {rs2} {rs1} {funct3} {rd} {opcode}"
@@ -62,6 +64,8 @@ def substituir_instrucaoB(linha, instrucao):
         imm = IMMconversorBin(palavras[3])
         if instrucao == "bne":
             funct3 = "001"; opcode = "1100011"
+        elif instrucao == "beq":
+            funct3 = "000"; opcode = "1100011"
         else:
             return linha
         return f"{imm[0]} {imm[1:6]} {rs2} {rs1} {funct3} {imm[6:10]} {imm[11]} {opcode}"
@@ -92,6 +96,10 @@ def substituir_instrucaoS(linha, instrucao):
         rs1 = RegistradorBin(palavras[3])
         if instrucao == "sw":
             funct3 = "010"; opcode = "0100011"
+        elif instrucao == "sb":
+            funct3 = "000"; opcode = "0100011"
+        elif instrucao == "sh":
+            funct3 = "001"; opcode = "0100011";
         else:
             return linha
         return f"{imm[0:7]} {rs2} {rs1} {funct3} {imm[7:12]} {opcode}"
@@ -120,6 +128,11 @@ try:
             linha = substituir_instrucaoI(linha, "ori")
             linha = substituir_instrucaoW(linha, "lb")
             linha = substituir_instrucaoW(linha, "lh")
+            linha = substituir_instrucaoS(linha, "sb")
+            linha = substituir_instrucaoS(linha, "sh")
+            linha = substituir_instrucaoR(linha, "srl")
+            linha = substituir_instrucaoB(linha, "beq")
+            
             saida_linhas.append(linha)
 
     if modo_saida == "1":
