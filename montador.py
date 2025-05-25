@@ -36,7 +36,7 @@ def substituir_instrucaoR(linha, instrucao):
                 funct7 = "0000000"; funct3 = "101"; opcode = "0110011"
             else:
                 return linha
-            return f"{funct7} {rs2} {rs1} {funct3} {rd} {opcode}"
+            return f"{funct7}{rs2}{rs1}{funct3}{rd}{opcode}"
     return linha
 
 def substituir_instrucaoI(linha, instrucao):
@@ -53,7 +53,7 @@ def substituir_instrucaoI(linha, instrucao):
             funct3 = "110"; opcode = "0010011"
         else:
             return linha
-        return f"{imm} {rs1} {funct3} {rd} {opcode}"
+        return f"{imm}{rs1}{funct3}{rd}{opcode}"
     return linha
 
 def substituir_instrucaoB(linha, instrucao):
@@ -68,7 +68,7 @@ def substituir_instrucaoB(linha, instrucao):
             funct3 = "000"; opcode = "1100011"
         else:
             return linha
-        return f"{imm[0]} {imm[1:6]} {rs2} {rs1} {funct3} {imm[6:10]} {imm[11]} {opcode}"
+        return f"{imm[0]}{imm[2:8]}{rs2}{rs1}{funct3}{imm[8:12]}{imm[1]}{opcode}"
     return linha
 
 def substituir_instrucaoW(linha, instrucao):
@@ -85,7 +85,7 @@ def substituir_instrucaoW(linha, instrucao):
             funct3 = "001"; opcode = "0000011"
         else:
             return linha
-        return f"{imm} {rs1} {funct3} {rd} {opcode}"
+        return f"{imm}{rs1}{funct3}{rd}{opcode}"
     return linha
 
 def substituir_instrucaoS(linha, instrucao):
@@ -99,10 +99,10 @@ def substituir_instrucaoS(linha, instrucao):
         elif instrucao == "sb":
             funct3 = "000"; opcode = "0100011"
         elif instrucao == "sh":
-            funct3 = "001"; opcode = "0100011";
+            funct3 = "001"; opcode = "0100011"
         else:
             return linha
-        return f"{imm[0:7]} {rs2} {rs1} {funct3} {imm[7:12]} {opcode}"
+        return f"{imm[0:7]}{rs2}{rs1}{funct3}{imm[7:12]}{opcode}"
     return linha
 
 nome_arquivo = "programa.asm"
